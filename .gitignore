@@ -1,0 +1,72 @@
+# Binaries for programs and packages
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Go build artifacts
+bin/
+build/
+*.log
+
+# Dependency directories (Vendor directory)
+vendor/
+
+# Kubernetes config and related files
+k8/kubeconfig
+.kube/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Docker-related files
+.dockerignore
+docker-compose.override.yml
+.env
+.env.*
+
+# Jenkins workspace and build directories
+.jenkins/
+workspace/
+builds/
+.lastSuccessful
+.lastFailed
+
+# IDE/Editor-specific files
+.vscode/
+.idea/
+*.iml
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Other temporary files
+*.lock
+*.pid
+*.seed
+*.old
+*.orig
+
+# Generated files
+/go.sum
+/go/pkg/
+go.sum.tmp
+
+# Generated coverage files
+coverage.out
+
+# Local test files
+test-results/
+
+# Secrets and sensitive files (be cautious when adding sensitive files here)
+*.key
+*.pem
+*.crt
+secrets.yaml
