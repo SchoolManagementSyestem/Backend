@@ -7,10 +7,10 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                checkout([$class: 'GitSCM',
-                    branches: [[name: '*/${BRANCH}']],
-                    // userRemoteConfigs: [[url: REPO_URL, credentialsId: 'github_credintial']]
-                ])
+                // checkout([$class: 'GitSCM',
+                //     // branches: [[name: '*/${BRANCH}']],
+                //     // userRemoteConfigs: [[url: REPO_URL, credentialsId: 'github_credintial']]
+                // ])
             }
         }
         stage('Build Docker Image') {

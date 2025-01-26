@@ -37,8 +37,8 @@ func main() {
 	router.Handle("/graphql", graphqlHandlerFunc)
 
 	// Start server
-	log.Println("Server running at http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Println("Server running at http://localhost:3000")
+	log.Fatal(http.ListenAndServe(":3000", router))
 }
 
 func initKafkaProducer() *kafka.Writer {
