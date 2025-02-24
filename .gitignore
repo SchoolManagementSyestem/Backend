@@ -14,6 +14,9 @@ build/
 # Dependency directories (Vendor directory)
 vendor/
 
+# Service binaries (mainService is the name of the service)
+*/tmp/
+
 # Kubernetes config and related files
 k8/kubeconfig
 .kube/
