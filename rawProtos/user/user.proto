@@ -2,17 +2,39 @@ syntax = "proto3";
 
 package user;
 
-option go_package = "github.com/sumonskys/schoolManagementSystem/protos/user;userpb";
+option go_package = "schoolManagementSystem/protos/user;userpb";
 
 service UserService {
   rpc GetUser (UserRequest) returns (UserResponse);
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse); // Added CreateUser
 }
 
+// Request for getting user
 message UserRequest {
   string userId = 1;
 }
 
+// Response for getting user
 message UserResponse {
   string name = 1;
   string email = 2;
+}
+
+// Request for creating user
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+}
+
+// Response for creating user
+message CreateUserResponse {
+  string status = 1;
+  string message = 2;
+  CreateUserResponseData data = 3;
+}
+
+message CreateUserResponseData {
+  string id = 1;
+  string name = 2;
+  string email = 3;
 }

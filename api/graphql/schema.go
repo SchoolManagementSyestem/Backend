@@ -2,8 +2,9 @@
 package graphql
 
 import (
+	"schoolManagementSystem/api/graphql/user"
+
 	"github.com/graphql-go/graphql"
-	"github.com/sumonskys/schoolManagementSystem/api/graphql/user"
 )
 
 // InitSchema initializes the GraphQL schema

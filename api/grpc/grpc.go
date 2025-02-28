@@ -1,46 +1,30 @@
 package grpc
 
 import (
-	"context"
+	"flag"
 	"log"
-	"time"
 
-	pb "github.com/sumonskys/schoolManagementSystem/protos/user"
+	pb "schoolManagementSystem/protos/user"
+
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
-var UserServiceClient pb.UserServiceClient
-
-// InitGRPC initializes the gRPC connection and returns a gRPC client
-func InitGRPC() pb.UserServiceClient {
+// InitUserGRPC initializes the gRPC connection and returns a gRPC client and connection
+func InitUserGRPC() (pb.UserServiceClient, *grpc.ClientConn) {
+	var (
+		serverAddr = flag.String("addr", "localhost:50051", "The server address in the format of host:port")
+	)
 	// Connect to the gRPC server
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	var opts []grpc.DialOption
+	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.NewClient(*serverAddr, opts...)
 	if err != nil {
 		log.Fatalf("Failed to connect to gRPC server: %v", err)
 	}
-	// Defer closing the connection
-	defer conn.Close()
 
 	// Initialize the client
-	UserServiceClient = pb.NewUserServiceClient(conn)
+	client := pb.NewUserServiceClient(conn)
 
-	return UserServiceClient
-}
-
-// CallGetUser is a helper function to call the GetUser RPC
-func CallGetUser(userID string) (*pb.UserResponse, error) {
-	// Ensure the client is initialized
-	client := InitGRPC()
-
-	// Call GetUser RPC method
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-
-	req := &pb.UserRequest{UserId: userID}
-	res, err := client.GetUser(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, nil
+	return client, conn
 }

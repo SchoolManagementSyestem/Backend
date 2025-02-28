@@ -4,9 +4,10 @@ import (
 	"log"
 	"net/http"
 
+	"schoolManagementSystem/api/graphql"
+	"schoolManagementSystem/api/rest"
+
 	"github.com/gorilla/mux"
-	"github.com/sumonskys/schoolManagementSystem/api/graphql"
-	"github.com/sumonskys/schoolManagementSystem/api/rest"
 )
 
 func main() {

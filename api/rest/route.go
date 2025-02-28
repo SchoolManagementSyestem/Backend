@@ -1,9 +1,10 @@
 package rest
 
 import (
+	"schoolManagementSystem/internal/auth"
+	"schoolManagementSystem/internal/user"
+
 	"github.com/gorilla/mux"
-	"github.com/sumonskys/schoolManagementSystem/internal/auth"
-	"github.com/sumonskys/schoolManagementSystem/internal/user"
 )
 
 // RegisterRoutes sets up REST API routes
