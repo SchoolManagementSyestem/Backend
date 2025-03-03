@@ -4,8 +4,10 @@ import (
 	"log"
 	"net"
 
+	"schoolManagementSystem/internal/db"
 	pb "schoolManagementSystem/protos/user"
 
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 )
 
@@ -15,10 +17,17 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
+	// Load .env file
+	envErr := godotenv.Load()
+	if envErr != nil {
+		log.Println("⚠️ No .env file found, using default system environment")
+	}
+
 	// Initialize dependencies
-	repo := NewUserRepository()        // Database
-	usecase := NewUserUsecase(repo)    // Business logic
-	handler := NewUserHandler(usecase) // gRPC Handler
+	database := db.InitPGDB()           // Database
+	repo := NewUserRepository(database) // Database
+	usecase := NewUserUsecase(repo)     // Business logic
+	handler := NewUserHandler(usecase)  // gRPC Handler
 
 	server := grpc.NewServer()
 	pb.RegisterUserServiceServer(server, handler)

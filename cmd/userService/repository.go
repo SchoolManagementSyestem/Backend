@@ -3,16 +3,20 @@ package main
 import (
 	"errors"
 	"sync"
+
+	"gorm.io/gorm"
 )
 
 type UserRepository struct {
+	db    *gorm.DB
 	mu    sync.Mutex
 	users map[string]*User
 }
 
-func NewUserRepository() *UserRepository {
+func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{
 		users: make(map[string]*User),
+		db:    db,
 	}
 }
 
