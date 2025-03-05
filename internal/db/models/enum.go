@@ -269,3 +269,33 @@ func (r EnumQualificationType) Value() (driver.Value, error) {
 }
 
 /***************** EnumQualificationType Enum End *****************/
+/***************** EnumTransactionStatus Enum Start *****************/
+
+type EnumTransactionStatus string
+
+const (
+	EnumTransactionStatusPending EnumTransactionStatus = "pending"
+	EnumTransactionStatusSuccess EnumTransactionStatus = "success"
+	EnumTransactionStatusFailed  EnumTransactionStatus = "failed"
+	EnumTransactionStatusRefund  EnumTransactionStatus = "refund"
+	EnumTransactionStatusCancel  EnumTransactionStatus = "cancel"
+	EnumTransactionStatusHold    EnumTransactionStatus = "hold"
+	EnumTransactionStatusCharge  EnumTransactionStatus = "charge"
+)
+
+// Scan converts DB value to Role
+func (r *EnumTransactionStatus) Scan(value interface{}) error {
+	val, ok := value.(string)
+	if !ok {
+		return fmt.Errorf("invalid role value: %v", value)
+	}
+	*r = EnumTransactionStatus(val)
+	return nil
+}
+
+// Value converts Role to DB-friendly format
+func (r EnumTransactionStatus) Value() (driver.Value, error) {
+	return string(r), nil
+}
+
+/***************** EnumTransactionStatus Enum End *****************/
