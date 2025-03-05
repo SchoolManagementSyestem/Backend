@@ -4,7 +4,7 @@ import "time"
 
 type Teacher struct {
 	Model
-	UserID        uint            `gorm:"not null;unique"`
+	UserID        string          `gorm:"not null;unique"`
 	Department    string          `gorm:"type:varchar(30);default:null"`
 	Subject       string          `gorm:"type:varchar(30);default:null"`
 	Experience    string          `gorm:"type:varchar(100);default:null"`
