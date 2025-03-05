@@ -14,5 +14,5 @@ type User struct {
 	Address        string     `gorm:"type:varchar(255);default:null"`
 	ProfilePicture string     `gorm:"type:varchar(255);default:null"`
 	Status         EnumStatus `gorm:"type:status_enum;not null;default:'active'"`
-	Student        *Student   `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"` // Use a pointer to Student
+	Student        *Student   `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
