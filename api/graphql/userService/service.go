@@ -1,5 +1,5 @@
 // internal/graphql/user/service.go
-package user
+package userService
 
 import "errors"
 

@@ -38,6 +38,7 @@ func InitPGDB() *gorm.DB {
 
 		// Apply Migrations
 		autoMigrate(DB)
+
 	})
 
 	return DB

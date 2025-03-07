@@ -13,6 +13,7 @@ func AutoMigrates(db *gorm.DB) {
 		&models.Parent{},
 		&models.Qualification{},
 		&models.Salary{},
+		&models.Setting{},
 		&models.Staff{},
 		&models.Student{},
 		&models.Teacher{},

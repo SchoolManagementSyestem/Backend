@@ -32,6 +32,9 @@ func main() {
 	server := grpc.NewServer()
 	pb.RegisterUserServiceServer(server, handler)
 
+	// Seed the database
+	db.Seed(database)
+
 	log.Println("User gRPC service running on port 50051")
 	if err := server.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)

@@ -1,5 +1,4 @@
-// internal/graphql/user/queries.go
-package user
+package student
 
 import (
 	"errors"
@@ -8,9 +7,8 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-// GetUserQuery resolver
-var GetUserQuery = &graphql.Field{
-	Type:        UserType,
+var GetStudentQuery = &graphql.Field{
+	Type:        StudentType,
 	Description: "Get user by ID",
 	Args: graphql.FieldConfigArgument{
 		"id": &graphql.ArgumentConfig{Type: graphql.Int},
@@ -25,11 +23,4 @@ var GetUserQuery = &graphql.Field{
 		fmt.Println("Fetching user with ID:", id)
 		return nil, nil
 	},
-}
-
-// RootQuery returns all query fields related to users
-func RootQuery() graphql.Fields {
-	return graphql.Fields{
-		"getUser": GetUserQuery,
-	}
 }

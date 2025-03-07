@@ -2,7 +2,7 @@
 package graphql
 
 import (
-	"schoolManagementSystem/api/graphql/user"
+	"schoolManagementSystem/api/graphql/userService"
 
 	"github.com/graphql-go/graphql"
 )
@@ -13,13 +13,13 @@ func InitSchema() (graphql.Schema, error) {
 		Query: graphql.NewObject(graphql.ObjectConfig{
 			Name: "Query",
 			Fields: mergeFields(
-				user.RootQuery(),
+				userService.RootQuery(),
 			),
 		}),
 		Mutation: graphql.NewObject(graphql.ObjectConfig{
 			Name: "Mutation",
 			Fields: mergeFields(
-				user.RootMutation(),
+				userService.RootMutation(),
 			),
 		}),
 	})
