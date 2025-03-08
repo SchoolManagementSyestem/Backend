@@ -1,7 +1,7 @@
 package student
 
 import (
-	"schoolManagementSystem/api/graphql/userService/common"
+	"schoolManagementSystem/api/graphql/common"
 
 	"github.com/graphql-go/graphql"
 )

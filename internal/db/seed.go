@@ -2,27 +2,40 @@ package db
 
 import (
 	"log"
+	"schoolManagementSystem/helpers"
 	"schoolManagementSystem/internal/db/models"
 
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 func Seed(db *gorm.DB) {
-	seedSettings(db)
+	tenantID, err := uuid.Parse("61b37884-8c0d-4d1c-ba89-68bcb0f4bd60")
+	if err != nil {
+		log.Fatal("Invalid UUID for TenantId:", err)
+	}
+	seedSettings(db, tenantID)
+	seedUsers(db, tenantID)
+	log.Println("✅ Seeding completed!")
 }
 
 // SeedSettings inserts default settings into the database
-func seedSettings(db *gorm.DB) {
+func seedSettings(db *gorm.DB, tenantID uuid.UUID) {
 	settings := []models.Setting{
-		{Key: "roll_format", Value: "CUS=ABC, YEAR, SHORT_YEAR, MONTH, DAY, SEQ=0001, RANDOM=0000, CLASS_CODE, SECTION_CODE"},
-		{Key: "app_name", Value: "School Management System"},
-		{Key: "site_name", Value: "School Management System"},
-		{Key: "site_url", Value: "https://school.example.com"},
-		{Key: "admin_email", Value: "admin@example.com"},
-		{Key: "timezone", Value: "Asia/Dhaka"},
-		{Key: "currency", Value: "BDT"},
+		{Model: models.Model{TenantId: tenantID}, Key: "roll_format", Value: "CUS=ABC, YEAR, SHORT_YEAR, MONTH, DAY, SEQ=0001, RANDOM=0000, CLASS_CODE, SECTION_CODE"},
+		{Model: models.Model{TenantId: tenantID}, Key: "app_name", Value: "School Management System"},
+		{Model: models.Model{TenantId: tenantID}, Key: "site_url", Value: "https://school.example.com"},
+		{Model: models.Model{TenantId: tenantID}, Key: "timezone", Value: "Asia/Dhaka"},
+		{Model: models.Model{TenantId: tenantID}, Key: "currency", Value: "BDT"},
+		{Model: models.Model{TenantId: tenantID}, Key: "currency_symbol", Value: "৳"},
+		{Model: models.Model{TenantId: tenantID}, Key: "date_format", Value: "d-m-Y"},
+		{Model: models.Model{TenantId: tenantID}, Key: "time_format", Value: "h:i A"},
+		{Model: models.Model{TenantId: tenantID}, Key: "datetime_format", Value: "d-m-Y h:i A"},
+		{Model: models.Model{TenantId: tenantID}, Key: "language", Value: "en"},
+		{Model: models.Model{TenantId: tenantID}, Key: "locale", Value: "en_US"},
+		{Model: models.Model{TenantId: tenantID}, Key: "last_uid", Value: "1000"},
+		{Model: models.Model{TenantId: tenantID}, Key: "roll_format_seq", Value: "1000"},
 	}
-
 	// Insert settings, avoiding duplicates
 	for _, setting := range settings {
 		var existing models.Setting
@@ -36,6 +49,34 @@ func seedSettings(db *gorm.DB) {
 			}
 		}
 	}
+}
 
-	log.Println("✅ Settings seeding completed!")
+func seedUsers(db *gorm.DB, tenantID uuid.UUID) {
+	password, err := helpers.HashPassword("password")
+	if err != nil {
+		log.Fatal("Failed to hash password")
+	}
+	users := []models.User{
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 1, FirstName: "Admin", Role: models.EnumAdmin, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumActive},
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 2, FirstName: "Staff", Role: models.EnumStaff, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumActive},
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 3, FirstName: "Parent", Role: models.EnumParent, DateOfBirth: "06-06-1990", Gender: models.EnumFemale, Status: models.EnumActive},
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 4, FirstName: "Student", Role: models.EnumStudent, DateOfBirth: "06-06-1990", Gender: models.EnumFemale, Status: models.EnumActive},
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 5, FirstName: "Student2", Role: models.EnumStudent, DateOfBirth: "06-06-1990", Gender: models.EnumFemale, Status: models.EnumInActive},
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 6, FirstName: "Student3", Role: models.EnumStudent, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumSuspended},
+		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 7, FirstName: "Teacher", Role: models.EnumTeacher, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumActive},
+	}
+
+	for _, user := range users {
+		var existing models.User
+
+		if err := db.Where("uid = ?", user.UID).First(&existing).Error; err != nil {
+			if err == gorm.ErrRecordNotFound {
+				if err := db.Create(&user).Error; err != nil {
+					log.Printf("Failed to seed user (%d): %v", user.UID, err)
+				}
+			} else {
+				log.Printf("Error checking user (%d): %v", user.UID, err)
+			}
+		}
+	}
 }

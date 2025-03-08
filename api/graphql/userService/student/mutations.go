@@ -6,7 +6,7 @@ import (
 
 // CreateStudentMutation resolver
 var CreateStudentMutation = &graphql.Field{
-	Type:        StudentType,
+	Type:        StudentResponseType,
 	Description: "Create a new student",
 	Args:        CreateStudentArgs,
 	Resolve:     CreateStudentHandler,

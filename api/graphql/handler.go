@@ -2,6 +2,7 @@
 package graphql
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -31,5 +32,12 @@ func NewGraphQLHandler() *GraphQLHandler {
 
 // ServeHTTP makes GraphQLHandler compatible with http.Handler
 func (g *GraphQLHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	// Create a new context with the HTTP request attached
+	ctx := context.WithValue(r.Context(), "httpRequest", r)
+
+	// Call the handler with the new context
+	r = r.WithContext(ctx)
+
+	// Now, process the request with the updated context
 	g.handler.ServeHTTP(w, r)
 }

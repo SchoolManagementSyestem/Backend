@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"schoolManagementSystem/api/grpc"
+	"schoolManagementSystem/helpers"
 	pb "schoolManagementSystem/protos/user"
 	"time"
 
@@ -12,6 +13,16 @@ import (
 )
 
 var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, error) {
+
+	// parse TenantId from the request headers
+	tenantId, err := helpers.GetTenantId(&p)
+	if err != nil {
+		return nil, err
+	}
+
+	// Check The Permission
+
+	fmt.Println(tenantId)
 	name, nameOk := p.Args["name"].(string)
 	email, emailOk := p.Args["email"].(string)
 
