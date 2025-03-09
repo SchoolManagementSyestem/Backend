@@ -58,12 +58,6 @@ func seedUsers(db *gorm.DB, tenantID uuid.UUID) {
 	}
 	users := []models.User{
 		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 1, FirstName: "Admin", Role: models.EnumAdmin, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumActive},
-		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 2, FirstName: "Staff", Role: models.EnumStaff, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumActive},
-		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 3, FirstName: "Parent", Role: models.EnumParent, DateOfBirth: "06-06-1990", Gender: models.EnumFemale, Status: models.EnumActive},
-		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 4, FirstName: "Student", Role: models.EnumStudent, DateOfBirth: "06-06-1990", Gender: models.EnumFemale, Status: models.EnumActive},
-		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 5, FirstName: "Student2", Role: models.EnumStudent, DateOfBirth: "06-06-1990", Gender: models.EnumFemale, Status: models.EnumInActive},
-		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 6, FirstName: "Student3", Role: models.EnumStudent, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumSuspended},
-		{Model: models.Model{TenantId: tenantID}, Password: password, UID: 7, FirstName: "Teacher", Role: models.EnumTeacher, DateOfBirth: "06-06-1990", Gender: models.EnumMale, Status: models.EnumActive},
 	}
 
 	for _, user := range users {
