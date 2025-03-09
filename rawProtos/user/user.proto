@@ -28,7 +28,7 @@ message CreateUserRequest {
 
 // Response for creating user
 message CreateUserResponse {
-  string status = 1;
+  bool status = 1;
   string message = 2;
   CreateUserResponseData data = 3;
 }

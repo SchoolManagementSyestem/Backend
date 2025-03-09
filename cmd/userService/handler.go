@@ -19,13 +19,16 @@ func NewUserHandler(u *UserUsecase) *UserHandler { // Accept a pointer to UserUs
 func (h *UserHandler) CreateUser(ctx context.Context, req *pb.CreateUserRequest) (*pb.CreateUserResponse, error) {
 	user, err := h.usecase.CreateUser(req.Name, req.Email)
 	if err != nil {
-		return nil, err
+		return &pb.CreateUserResponse{
+			Status:  false,
+			Message: "User already exists",
+		}, nil
 	}
 
 	fmt.Println("User created successfully")
 
 	return &pb.CreateUserResponse{
-		Status:  "success",
+		Status:  true,
 		Message: "User created successfully",
 		Data: &pb.CreateUserResponseData{
 			Id:    user.ID,

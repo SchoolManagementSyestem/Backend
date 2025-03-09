@@ -8,7 +8,7 @@ install-tools:
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	@export PATH=$$PATH:$(go env GOPATH)/bin
 
-protogen: install-tools
+protogen: 
 	@mkdir -p $(OUT_DIR)
 	@find $(PROTO_DIR) -name "*.proto" | while read protofile; do \
 		protoc --proto_path=$(PROTO_DIR) \

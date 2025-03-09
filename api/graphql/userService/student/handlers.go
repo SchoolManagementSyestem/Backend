@@ -48,14 +48,10 @@ var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, error) {
 	}
 
 	// Check if response and data exist
-	if res == nil || res.Data == nil {
+	if res == nil {
 		return nil, errors.New("invalid response from gRPC server")
 	}
 
 	// Return the created user data
-	return map[string]interface{}{
-		"id":    res.GetData().GetId(),
-		"name":  res.GetData().GetName(),
-		"email": res.GetData().GetEmail(),
-	}, nil
+	return res, nil
 }
