@@ -30,3 +30,41 @@ func GetTenantId(p *graphql.ResolveParams) (uuid.UUID, error) {
 
 	return tenantID, nil
 }
+
+// Authentication extracts the user claims from the HTTP request in GraphQL resolve params
+func Authentication(p *graphql.ResolveParams) (CustomClaims, error) {
+	// Extract the HTTP request from the context
+	claims, ok := p.Context.Value("user").(*CustomClaims)
+	if !ok {
+		return CustomClaims{}, errors.New("failed to get HTTP request from context")
+	}
+
+	return *claims, nil
+}
+
+// Authorization checks if the user has the required role to access the resource
+func Authorization(claims *CustomClaims, role string) error {
+	if claims.Role == "admin" {
+		return nil
+	} else if claims.Role != role {
+		return errors.New("unauthorized access")
+	}
+	return nil
+}
+
+// Authorizations checks if the user has the required role to access the resource
+func Authorizations(claims *CustomClaims, roles []string) error {
+	// Admins always have access
+	if claims.Role == "admin" {
+		return nil
+	}
+
+	// Check if the user role exists in the allowed roles
+	for _, allowedRole := range roles {
+		if claims.Role == allowedRole {
+			return nil
+		}
+	}
+
+	return errors.New("unauthorized access")
+}

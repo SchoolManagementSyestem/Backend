@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	pb "schoolManagementSystem/protos/user"
 )
 
@@ -20,6 +21,8 @@ func (h *UserHandler) CreateUser(ctx context.Context, req *pb.CreateUserRequest)
 	if err != nil {
 		return nil, err
 	}
+
+	fmt.Println("User created successfully")
 
 	return &pb.CreateUserResponse{
 		Status:  "success",

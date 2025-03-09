@@ -10,11 +10,12 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
+var (
+	serverAddr = flag.String("addr", "localhost:50051", "The server address in the format of host:port")
+)
+
 // InitUserGRPC initializes the gRPC connection and returns a gRPC client and connection
 func InitUserGRPC() (pb.UserServiceClient, *grpc.ClientConn) {
-	var (
-		serverAddr = flag.String("addr", "localhost:50051", "The server address in the format of host:port")
-	)
 	// Connect to the gRPC server
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))

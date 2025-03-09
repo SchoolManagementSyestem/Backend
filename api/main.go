@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"schoolManagementSystem/api/graphql"
+	"schoolManagementSystem/api/middleware"
 	"schoolManagementSystem/api/rest"
 
 	"github.com/gorilla/mux"
@@ -16,7 +17,7 @@ func main() {
 
 	// Create HTTP router
 	router := mux.NewRouter()
-	router.Handle("/graphql", graphqlHandler) // Attach the handler
+	router.Handle("/graphql", middleware.AuthMiddleware(graphqlHandler))
 
 	// Register REST API routes
 	rest.RegisterRoutes(router)

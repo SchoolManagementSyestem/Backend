@@ -20,13 +20,12 @@ var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, error) {
 		return nil, err
 	}
 
-	// Check The Permission
+	fmt.Println("Tenant ID: ", tenantId)
 
-	fmt.Println(tenantId)
-	name, nameOk := p.Args["name"].(string)
-	email, emailOk := p.Args["email"].(string)
+	firstName, firstNameOk := p.Args["firstName"].(string)
+	email, _ := p.Args["email"].(string)
 
-	if !nameOk || !emailOk {
+	if !firstNameOk {
 		return nil, errors.New("invalid input")
 	}
 
@@ -41,7 +40,7 @@ var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, error) {
 	defer cancel()
 
 	res, err := client.CreateUser(ctx, &pb.CreateUserRequest{
-		Name:  name,
+		Name:  firstName,
 		Email: email,
 	})
 	if err != nil {
