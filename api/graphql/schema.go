@@ -2,7 +2,7 @@
 package graphql
 
 import (
-	"schoolManagementSystem/api/graphql/userService"
+	"schoolManagementSystem/api/graphql/services/userService"
 
 	"github.com/graphql-go/graphql"
 )

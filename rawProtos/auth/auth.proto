@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "schoolManagementSystem/protos/auth;authpb";
+
+service AuthService {
+  rpc LoginUser (LoginRequest) returns (LoginResponse);
+  rpc LoginStaff (LoginRequest) returns (LoginResponse);
+  rpc LoginAdmin (LoginRequest) returns (LoginResponse);
+}
+
+// Request for login
+message LoginRequest {
+  string uid = 1;
+  string password = 2;
+}
+
+// Response for login
+message LoginResponse {
+  bool status = 1;
+  string message = 2;
+  LoginResponseData data = 3;
+}
+
+// Detailed login response data
+message LoginResponseData {
+  string id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string email = 4;
+  string phone = 5;
+  string dateOfBirth = 6;
+  Gender gender = 7;
+  string address = 8;
+  Status status = 9;
+  string profilePicture = 10;
+  string createdAt = 11;
+  string updatedAt = 12;
+  string deletedAt = 13;
+  UserRole role = 14;
+  Token token = 15;
+}
+
+// Token structure for access and refresh tokens
+message Token {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+// Enum for Gender
+enum Gender {
+  GENDER_UNSPECIFIED = 0;
+  MALE = 1;
+  FEMALE = 2;
+  OTHER = 3;
+}
+
+// Enum for Status
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  ACTIVE = 1;
+  INACTIVE = 2;
+  SUSPENDED = 3;
+}
+
+// Enum for User Role
+enum UserRole {
+  ROLE_UNSPECIFIED = 0;
+  ADMIN = 1;
+  TEACHER = 2;
+  STUDENT = 3;
+  STAFF = 4;
+}

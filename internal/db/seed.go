@@ -2,21 +2,26 @@ package db
 
 import (
 	"log"
-	"schoolManagementSystem/helpers"
 	"schoolManagementSystem/internal/db/models"
+	"schoolManagementSystem/pkg/helpers"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
-func Seed(db *gorm.DB) {
+func SeedUser(db *gorm.DB) {
+	tenantID, err := uuid.Parse("61b37884-8c0d-4d1c-ba89-68bcb0f4bd60")
+	if err != nil {
+		log.Fatal("Invalid UUID for TenantId:", err)
+	}
+	seedUsers(db, tenantID)
+}
+func SeedSettings(db *gorm.DB) {
 	tenantID, err := uuid.Parse("61b37884-8c0d-4d1c-ba89-68bcb0f4bd60")
 	if err != nil {
 		log.Fatal("Invalid UUID for TenantId:", err)
 	}
 	seedSettings(db, tenantID)
-	seedUsers(db, tenantID)
-	log.Println("✅ Seeding completed!")
 }
 
 // SeedSettings inserts default settings into the database

@@ -3,7 +3,7 @@ package middleware
 import (
 	"context"
 	"net/http"
-	"schoolManagementSystem/helpers"
+	"schoolManagementSystem/pkg/helpers"
 )
 
 type contextKey string
