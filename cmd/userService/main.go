@@ -20,7 +20,7 @@ func main() {
 	if envErr != nil {
 		log.Println("⚠️ No .env file found, using default system environment")
 	}
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", os.Getenv("PORT")))
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", os.Getenv("SERVICE_PORT")))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}

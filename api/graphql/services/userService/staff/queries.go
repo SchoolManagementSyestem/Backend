@@ -8,7 +8,7 @@ import (
 )
 
 var GetStudentQuery = &graphql.Field{
-	Type:        LoginAdminResponseType,
+	Type:        LoginResponseType,
 	Description: "Get user by ID",
 	Args: graphql.FieldConfigArgument{
 		"id": &graphql.ArgumentConfig{Type: graphql.Int},

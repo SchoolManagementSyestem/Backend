@@ -1,7 +1,6 @@
 package grpc
 
 import (
-	"flag"
 	"log"
 	"os"
 
@@ -17,7 +16,7 @@ func InitUserGRPC() (pbuser.UserServiceClient, *grpc.ClientConn) {
 	// Connect to the gRPC server
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	conn, err := grpc.NewClient(*flag.String("addr", os.Getenv("USER_SERVICE_URL"), "The server address in the format of host:port"), opts...)
+	conn, err := grpc.NewClient(os.Getenv("USER_SERVICE_URL"), opts...)
 	if err != nil {
 		log.Fatalf("Failed to connect to gRPC server: %v", err)
 	}
@@ -33,7 +32,7 @@ func InitAuthGRPC() (pbauth.AuthServiceClient, *grpc.ClientConn) {
 	// Connect to the gRPC server
 	var opts []grpc.DialOption
 	opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	conn, err := grpc.NewClient(*flag.String("addr", os.Getenv("AUTH_SERVICE_URL"), "The server address in the format of host:port"), opts...)
+	conn, err := grpc.NewClient(os.Getenv("AUTH_SERVICE_URL"), opts...)
 	if err != nil {
 		log.Fatalf("Failed to connect to gRPC server: %v", err)
 	}

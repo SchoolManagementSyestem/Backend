@@ -6,8 +6,8 @@ import (
 
 // LoginMutation resolver
 var LoginMutation = &graphql.Field{
-	Type:        LoginAdminResponseType,
-	Description: "Admin login",
-	Args:        LoginAdminArgs,
-	Resolve:     LoginAdminHandler,
+	Type:        LoginResponseType,
+	Description: "Staff login",
+	Args:        LoginArgs,
+	Resolve:     LoginHandler,
 }

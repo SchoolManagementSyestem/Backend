@@ -12,6 +12,7 @@ service UserService {
 // Request for getting user
 message UserRequest {
   string userId = 1;
+  string tenantId = 2;
 }
 
 // Response for getting user
@@ -24,6 +25,7 @@ message UserResponse {
 message CreateUserRequest {
   string name = 1;
   string email = 2;
+  string tenantId = 3;
 }
 
 // Response for creating user

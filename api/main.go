@@ -9,9 +9,15 @@ import (
 	"schoolManagementSystem/api/rest"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// Load .env file
+	envErr := godotenv.Load("../.env")
+	if envErr != nil {
+		log.Fatal("⚠️ No .env file found, using default system environment")
+	}
 	// Initialize GraphQL handler
 	graphqlHandler := graphql.NewGraphQLHandler()
 

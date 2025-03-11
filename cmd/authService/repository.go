@@ -32,10 +32,10 @@ func (r *AuthRepository) Save(user *models.User) (*models.User, error) {
 	return user, nil
 }
 
-// GetUserByID fetches a user by ID
-func (r *AuthRepository) GetUserByID(userID string) (*models.User, error) {
+// GetUserByID fetches a user by ID and tenantId
+func (r *AuthRepository) GetUserByID(userID string, tenantId string) (*models.User, error) {
 	var user models.User
-	if err := r.db.Where("id = ?", userID).First(&user).Error; err != nil {
+	if err := r.db.Where("id = ? AND tenant_id = ?", userID, tenantId).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("user not found")
 		}
@@ -45,10 +45,10 @@ func (r *AuthRepository) GetUserByID(userID string) (*models.User, error) {
 	return &user, nil
 }
 
-// GetUserByEmail fetches a user by email
-func (r *AuthRepository) GetUserByEmail(email string) (*models.User, error) {
+// GetUserByID fetches a user by UID and tenantId
+func (r *AuthRepository) GetUserByUID(uId string, tenantId string) (*models.User, error) {
 	var user models.User
-	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
+	if err := r.db.Where("uid = ? AND tenant_id = ?", uId, tenantId).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, errors.New("user not found")
 		}
@@ -58,24 +58,38 @@ func (r *AuthRepository) GetUserByEmail(email string) (*models.User, error) {
 	return &user, nil
 }
 
-// UpdateUser updates an existing user's data
+// GetUserByEmail fetches a user by email and tenantId
+func (r *AuthRepository) GetUserByEmail(email string, tenantId string) (*models.User, error) {
+	var user models.User
+	if err := r.db.Where("email = ? AND tenant_id = ?", email, tenantId).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("user not found")
+		}
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+// UpdateUser updates an existing user's data with tenantId validation
 func (r *AuthRepository) UpdateUser(user *models.User) (*models.User, error) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	if err := r.db.Save(user).Error; err != nil {
+	// Ensure tenant_id is part of the update condition
+	if err := r.db.Where("id = ? AND tenant_id = ?", user.ID, user.TenantId).Save(user).Error; err != nil {
 		return nil, err
 	}
 
 	return user, nil
 }
 
-// DeleteUser deletes a user by ID (soft delete)
-func (r *AuthRepository) DeleteUser(userID string) error {
+// DeleteUser deletes a user by ID and tenantId (soft delete)
+func (r *AuthRepository) DeleteUser(userID string, tenantId string) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	if err := r.db.Where("id = ?", userID).Delete(&models.User{}).Error; err != nil {
+	if err := r.db.Where("id = ? AND tenant_id = ?", userID, tenantId).Delete(&models.User{}).Error; err != nil {
 		return err
 	}
 

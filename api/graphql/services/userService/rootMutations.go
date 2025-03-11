@@ -12,6 +12,6 @@ import (
 func RootMutation() graphql.Fields {
 	return graphql.Fields{
 		"createStudent": student.CreateMutation,
-		"adminLogin":    staff.LoginMutation,
+		"staffLogin":    staff.LoginMutation,
 	}
 }

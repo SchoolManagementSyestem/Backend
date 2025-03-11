@@ -2,8 +2,8 @@ package student
 
 import (
 	"context"
+	"errors"
 	"fmt"
-	"schoolManagementSystem/api/graphql/common"
 	"schoolManagementSystem/api/grpc"
 	"schoolManagementSystem/pkg/helpers"
 	pb "schoolManagementSystem/protos/user"
@@ -12,12 +12,12 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, map[string]interface{}) {
+var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, error) {
 
 	// parse TenantId from the request headers
 	tenantId, err := helpers.GetTenantId(&p)
 	if err != nil {
-		return nil, err
+		return err, nil
 	}
 
 	fmt.Println("Tenant ID: ", tenantId)
@@ -26,7 +26,7 @@ var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, map[strin
 	email, _ := p.Args["email"].(string)
 
 	if !firstNameOk {
-		return nil, common.ResponseError("uid is required")
+		return nil, errors.New("firstName is required")
 	}
 
 	// Call to the Micro Service
@@ -44,12 +44,12 @@ var CreateStudentHandler = func(p graphql.ResolveParams) (interface{}, map[strin
 		Email: email,
 	})
 	if errData != nil {
-		return nil, common.ResponseError(fmt.Sprintf("failed to create: %v", err))
+		return nil, errData
 	}
 
 	// Check if response and data exist
 	if res == nil {
-		return nil, common.ResponseError(fmt.Sprintf("failed to create: %v", err))
+		return nil, errors.New("Failed to create user")
 	}
 
 	// Return the created user data

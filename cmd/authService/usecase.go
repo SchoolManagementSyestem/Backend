@@ -14,15 +14,15 @@ func NewAuthUsecase(repo *AuthRepository) *AuthUsecase {
 	return &AuthUsecase{repo: repo}
 }
 
-func (u *AuthUsecase) LoginStaff(uid, password string) (*pb.LoginResponse, error) {
+func (u *AuthUsecase) LoginStaff(req *pb.LoginRequest) (*pb.LoginResponse, error) {
 	// Fetch user by ID
-	user, err := u.repo.GetUserByID(uid)
+	user, err := u.repo.GetUserByUID(req.Uid, req.TenantId)
 	if err != nil {
 		return nil, errors.New("user not found")
 	}
 
 	// Validate password
-	if err := helpers.CheckPasswordHash(password, user.Password); err != nil {
+	if err := helpers.CheckPasswordHash(req.Password, user.Password); err != nil {
 		return nil, errors.New("invalid credentials")
 	}
 
@@ -50,12 +50,12 @@ func (u *AuthUsecase) LoginStaff(uid, password string) (*pb.LoginResponse, error
 		LastName:       user.LastName,
 		Email:          user.Email,
 		Phone:          user.Phone,
-		Role:           MapUserRoleToProto(user.Role),
+		Role:           string(user.Role),
 		DateOfBirth:    user.DateOfBirth,
-		Gender:         MapUserGenderToProto(user.Gender),
+		Gender:         string(user.Gender),
 		Address:        user.Address,
 		ProfilePicture: user.ProfilePicture,
-		Status:         MapStatusToProto(user.Status),
+		Status:         string(user.Status),
 		CreatedAt:      user.CreatedAt.String(),
 		UpdatedAt:      user.UpdatedAt.String(),
 		DeletedAt:      user.DeletedAt.Time.String(),

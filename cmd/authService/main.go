@@ -21,7 +21,7 @@ func main() {
 		log.Fatal("⚠️ No .env file found, using default system environment")
 	}
 
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", os.Getenv("PORT")))
+	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", os.Getenv("SERVICE_PORT")))
 	if err != nil {
 		log.Fatalf("Failed to listen: %v", err)
 	}
@@ -35,7 +35,7 @@ func main() {
 	server := grpc.NewServer()
 	pb.RegisterAuthServiceServer(server, handler)
 
-	log.Println("User gRPC service running on port 50051")
+	log.Println("User gRPC service running on port 50052")
 	if err := server.Serve(listener); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

@@ -16,8 +16,8 @@ var TokenType = graphql.NewObject(graphql.ObjectConfig{
 })
 
 // LoginResponseType defines the GraphQL response for staff login
-var LoginAdminResponseType = common.GraphqlResponseWithData(
-	"AdminLoginResponse",
+var LoginResponseType = common.GraphqlResponseWithData(
+	"StaffLogin",
 	graphql.Fields{
 		"id":             &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
 		"firstName":      &graphql.Field{Type: graphql.NewNonNull(graphql.String)},
