@@ -15,4 +15,6 @@ type User struct {
 	ProfilePicture string     `gorm:"type:varchar(255);default:null"`
 	Status         EnumStatus `gorm:"type:status_enum;not null;default:'active'"`
 	Student        *Student   `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Staff          *Staff     `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Parent         *Parent    `gorm:"foreignKey:UserID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }

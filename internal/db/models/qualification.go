@@ -2,7 +2,7 @@ package models
 
 type Qualification struct {
 	Model
-	TeacherID string                `gorm:"not null;unique"`
+	StaffID   string                `gorm:"type:varchar(100);not null"`
 	Type      EnumQualificationType `gorm:"type:qualification_type_enum;not null;"`
 	Institute string                `gorm:"type:varchar(100);not null"`
 	Year      string                `gorm:"type:varchar(4);not null"`

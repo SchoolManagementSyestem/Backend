@@ -7,7 +7,6 @@ option go_package = "schoolManagementSystem/protos/auth;authpb";
 service AuthService {
   rpc LoginUser (LoginRequest) returns (LoginResponse);
   rpc LoginStaff (LoginRequest) returns (LoginResponse);
-  rpc LoginAdmin (LoginRequest) returns (LoginResponse);
 }
 
 // Request for login
@@ -28,19 +27,47 @@ message LoginResponse {
 message LoginResponseData {
   string id = 1;
   string firstName = 2;
-  string lastName = 3;
-  string email = 4;
-  string phone = 5;
+  optional string lastName = 3;
+  optional string email = 4;
+  optional string phone = 5;
   string dateOfBirth = 6;
   string gender = 7;
-  string address = 8;
+  optional string address = 8;
   string status = 9;
-  string profilePicture = 10;
+  optional string profilePicture = 10;
   string createdAt = 11;
   string updatedAt = 12;
-  string deletedAt = 13;
+  optional string deletedAt = 13;
   string role = 14;
-  Token token = 15;
+  optional Token token = 15;
+}
+
+// Teacher
+message TeacherResponse {
+  string id = 1;
+  string staffId = 2;
+  optional string department = 3;
+  optional string section = 4;
+  optional string subject = 5;
+}
+
+// Student
+message StudentResponse {
+  string id = 1;
+  string userId = 2;
+  string rollNumber = 3;
+  string classId = 4;
+  optional string teacherId = 5;
+  string guardianId = 6;
+  string admissionDate = 7;
+  uint32 paySchedule = 8;
+  double weaver = 9;
+  optional string weaverType = 10;
+}
+
+// Staff
+message StaffResponse {
+  
 }
 
 // Token structure for access and refresh tokens
